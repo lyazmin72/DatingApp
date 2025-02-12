@@ -82,6 +82,7 @@ public class UsersController : BaseApiController
         }
         return BadRequest("Problem adding the photo");
     }
+
     [HttpPut("photo/{photoId:int}")]
     public async Task<ActionResult> SetPhotoAsMain(int photoId)
     {
@@ -94,5 +95,22 @@ public class UsersController : BaseApiController
         photo.IsMain = true;
         if (await _repository.SaveAllAsync()) return NoContent();
         return BadRequest("There was a problem.");
+    }
+
+    [HttpDelete("photo/{photoId:int}")]
+    public async Task<ActionResult> DeletePhoto(int photoId)
+    {
+        var user = await _repository.GetByUsernameAsync(User.GetUserName());
+        if (user == null) return BadRequest("User not found");
+        var photo = user.Photos.FirstOrDefault(p => p.Id == photoId);
+        if (photo == null || photo.IsMain) return BadRequest("This photo can't be deleted");
+        if (photo.PublicId != null)
+        {
+            var result = await _photoService.DeletePhotoAsync(photo.PublicId);
+            if (result.Error != null) return BadRequest(result.Error.Message);
+        }
+        user.Photos.Remove(photo);
+        if (await _repository.SaveAllAsync()) return Ok();
+        return BadRequest("There was a problem when deleting the photo");
     }
 }
