@@ -1,9 +1,10 @@
 #nullable disable
 namespace API.Data.Migrations;
 using System;
+using System.Diagnostics.CodeAnalysis;
 using Microsoft.EntityFrameworkCore.Migrations;
 
-/// <inheritdoc />
+[ExcludeFromCodeCoverage]
 public partial class UpdatedUserEntity : Migration
 {
     /// <inheritdoc />
