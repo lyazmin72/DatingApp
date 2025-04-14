@@ -60,4 +60,10 @@ namespace API.Controllers;
          Response.AddPaginationHeader(messages);
          return messages;
      }
+     [HttpGet("thread/{username}")]
+     public async Task<ActionResult<IEnumerable<MessageResponse>>> GetMessageThread(string username)
+     {
+         var currentUsername = User.GetUserName();
+         return Ok(await messageRepository.GetThreadAsync(currentUsername, username));
+     }
  }
