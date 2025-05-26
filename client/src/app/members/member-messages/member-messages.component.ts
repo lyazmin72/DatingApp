@@ -16,11 +16,8 @@ import { FormsModule, NgForm } from '@angular/forms';
    messageContent = "";
 
    sendMessage() {
-    this.messagesService.sendMessage(this.username(), this.messageContent).subscribe({
-      next: message => {
-        this.messageForm?.reset();
-      }
-    });
-    
+    this.messagesService.sendMessage(this.username(), this.messageContent).then(() => {
+      this.messageForm?.reset();
+    })
    }
  }

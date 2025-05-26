@@ -31,7 +31,12 @@ import { User } from '../_models/user';
     this.hubConnection.on("ReceiveMessageThread", messages => {
       this.messageThread.set(messages);
     });
+
+    this.hubConnection.on("NewMessage", message => {
+      this.messageThread.update(messages => [...messages, message]);
+    })
   }
+  
 
   stopHbuConnection() {
     if (this.hubConnection?.state === HubConnectionState.Connected) {
@@ -51,8 +56,8 @@ import { User } from '../_models/user';
    getMessageThread(username: string) {
     return this.http.get<Message[]>(this.baseUrl + "message/thread/" + username);
   }
-  sendMessage(username: string, content: string) {
-    return this.http.post<Message>(this.baseUrl + "messages", { recipientUsername: username, content });
+  async sendMessage(username: string, content: string) {
+    return this.hubConnection?.invoke("SendMessage", { recipientUsername: username, content});
   }
   deleteMessage(id: number) {
     return this.http.delete(this.baseUrl + "messages/" + id);
