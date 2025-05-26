@@ -16,7 +16,7 @@ import { FormsModule, NgForm } from '@angular/forms';
    messageContent = "";
 
    sendMessage() {
-    this.messagesService.sendMessage(this.username(), this.messageContent).then(() => {
+     this.messagesService.sendMessageAsync(this.username(), this.messageContent).then(() => {
       this.messageForm?.reset();
     })
    }
