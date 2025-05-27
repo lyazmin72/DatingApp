@@ -57,7 +57,6 @@ import { User } from '../_models/user';
     return this.http.get<Message[]>(this.baseUrl + "message/thread/" + username);
   }
   async sendMessageAsync(username: string, content: string) {
-    console.log("AQUÍ")
     return this.hubConnection?.invoke("SendMessageAsync", { recipientUsername: username, content});
   }
   deleteMessage(id: number) {
