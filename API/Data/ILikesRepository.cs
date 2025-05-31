@@ -9,6 +9,4 @@ public interface ILikesRepository
     public Task<IEnumerable<int>> GetCurrentUserLikeIdsAsync(int currentUSerId);
     public Task<UserLike?> GetUserLikeAsync(int sourceUserId, int targerUserId);
     public Task<PagedList<MemberResponse>> GetUserLikesAsync(LikesParams likesParams);
-    public Task<bool> SaveChangesAsync();
-
 }
