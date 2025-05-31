@@ -27,7 +27,6 @@ public class LikesController(IUnitOfWork unitOfWork) : BaseApiController
             };
             unitOfWork.LikesRepository.AddLike(like);
         }
-        else
         { unitOfWork.LikesRepository.RemoveLike(existingLike); }
 
         if (await unitOfWork.Complete())
